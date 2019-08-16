@@ -1,9 +1,28 @@
 <template>
-	<h1>Important</h1>
+	<div class="inbox-body">
+		<appImportant :messages="importantMessages"></appImportant>
+	</div>
 </template>
 
 <script>
-	export default {
+	import Messages from './Messages.vue'
 
+	export default {
+		props: {
+			data: {
+				type: Object,
+				required: true
+			}
+		},
+		computed: {
+			importantMessages() {
+				return this.data.messages.filter(function(message){
+					return (message.type == 'incoming' && message.isImportant === true);
+				});
+			},
+		},
+		components: {
+			appImportant: Messages
+		}
 	}
 </script>

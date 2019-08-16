@@ -9,10 +9,14 @@
 			</div>
 		</div>
 
+		<div class="compose-wrapper">
+			<appCompose></appCompose>
+		</div>
+
 		<ul class="inbox-nav">
 			<li :class="{active: activeView == 'app-inbox'}">
 				<a href="#" @click.prevent="navigate('app-inbox', 'Inbox')">
-					<i class="fa fa-inbox"></i> Inbox  <span class="badge badge-danger float-xs-right">{{ unreadMessages.length }}</span>
+					<i class="fa fa-inbox"></i> Inbox  <span class="badge badge-danger pull-right">{{ unreadMessages.length }}</span>
 				</a>
 			</li>
 
@@ -37,6 +41,7 @@
 
 <script>
 	import { eventBus } from './main';
+	import Compose from './Compose.vue'
 
 	export default {
 		props: {
@@ -66,17 +71,17 @@
 		computed: {
 			unreadMessages() {
 				return this.messages.filter(function(message){
-					return (mesage.type == 'incoming' && !message.isRead && !message.isDeleted);
+					return (message.type == 'incoming' && !message.isRead && !message.isDeleted);
 				});
 			},
 			sentMessages() {
 				return this.messages.filter(function(message){
-					return (mesage.type == 'outgoing' && !message.isDeleted);
+					return (message.type == 'outgoing' && !message.isDeleted);
 				});
 			},
 			importantMessages () {
 				return this.messages.filter(function(message){
-					return (mesage.type == 'incoming' && !message.isImportant === true && !message.isDeleted);
+					return (message.type == 'incoming' && message.isImportant === true && !message.isDeleted);
 				});
 			},
 			trashedMessages () {
@@ -84,6 +89,9 @@
 					return message.isDeleted === true;
 				});
 			}
+		},
+		components: {
+			appCompose: Compose
 		}
 	}
 </script>
